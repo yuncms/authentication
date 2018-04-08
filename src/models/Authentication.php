@@ -12,7 +12,6 @@ use yuncms\db\ActiveRecord;
 use yuncms\helpers\ArrayHelper;
 use yuncms\user\models\User;
 use yuncms\authentication\AuthenticationTrait;
-use yuncms\authentication\jobs\AuthenticationJob;
 
 /**
  * This is the model class for table "authentications".
@@ -39,6 +38,7 @@ class Authentication extends ActiveRecord
     const SCENARIO_CREATE = 'create';//创建
     const SCENARIO_UPDATE = 'update';//更新
     const SCENARIO_VERIFY = 'verify';
+
     //证件类型
     const TYPE_ID = 'id';
     const TYPE_PASSPORT = 'passport';
@@ -115,7 +115,7 @@ class Authentication extends ActiveRecord
             ],
             'idCardMatch' => [
                 'id_card',
-                'yuncms\core\validators\IdCardValidator',
+                'yuncms\validators\IdCardValidator',
                 'when' => function ($model) {//中国大陆18位身份证号码校验
                     return $model->id_type == static::TYPE_ID;
                 },
@@ -224,19 +224,6 @@ class Authentication extends ActiveRecord
     {
         $user = static::findOne(['user_id' => $user_id]);
         return $user ? $user->status == static::STATUS_AUTHENTICATED : false;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function afterSave($insert, $changedAttributes)
-    {
-        parent::afterSave($insert, $changedAttributes);
-        if ($this->getSetting('enableMachineReview') && ($this->id_type == self::TYPE_ID && empty(!$this->passport_cover))) {
-            if ($this->scenario == self::SCENARIO_CREATE || $this->scenario == self::SCENARIO_UPDATE) {
-                Yii::$app->queue->push(new AuthenticationJob(['userId' => $this->user_id]));
-            }
-        }
     }
 
     /**
