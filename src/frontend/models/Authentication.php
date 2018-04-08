@@ -99,6 +99,7 @@ class Authentication extends \yuncms\authentication\models\Authentication
             'id_file' => Yii::t('yuncms/authentication', 'Passport cover'),
             'id_file1' => Yii::t('yuncms/authentication', 'Passport person page'),
             'id_file2' => Yii::t('yuncms/authentication', 'Passport self holding'),
+            'verifyCode' => Yii::t('yuncms', 'VerifyCode'),
             'registrationPolicy' => Yii::t('yuncms/authentication', 'Agree and accept Service Agreement and Privacy Policy'),
         ]);
     }

@@ -1,11 +1,8 @@
 <?php
 use yii\bootstrap\Html;
 use yii\captcha\Captcha;
-use yii\bootstrap\ActiveForm;
-use xutl\bootstrap\filestyle\FilestyleAsset;
+use yuncms\widgets\ActiveForm;
 use yuncms\authentication\models\Authentication;
-
-FilestyleAsset::register($this);
 
 /*
  * @var yii\web\View $this
@@ -30,15 +27,9 @@ $form = ActiveForm::begin([
     Authentication::TYPE_HKMCID => Yii::t('yuncms/authentication', 'HKMC ID'),
 ]); ?>
 <?= $form->field($model, 'id_card') ?>
-<?= $form->field($model, 'id_file')->fileInput(['class' => 'filestyle', 'data' => [
-    'buttonText' => Yii::t('yuncms/authentication', 'Choose file')
-]]); ?>
-<?= $form->field($model, 'id_file1')->fileInput(['class' => 'filestyle', 'data' => [
-    'buttonText' => Yii::t('yuncms/authentication', 'Choose file')
-]]); ?>
-<?= $form->field($model, 'id_file2')->fileInput(['class' => 'filestyle', 'data' => [
-    'buttonText' => Yii::t('yuncms/authentication', 'Choose file')
-]]); ?>
+<?= $form->field($model, 'id_file')->fileInput(); ?>
+<?= $form->field($model, 'id_file1')->fileInput(); ?>
+<?= $form->field($model, 'id_file2')->fileInput(); ?>
 
 <?= $form->field($model, 'verifyCode')->widget(Captcha::class, [
     'captchaAction' => '/authentication/authentication/captcha',

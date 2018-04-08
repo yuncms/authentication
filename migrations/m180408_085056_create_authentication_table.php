@@ -10,7 +10,7 @@ class m180408_085056_create_authentication_table extends Migration
     /**
      * @var string The table name.
      */
-    public $tableName = '{{%authentication}}';
+    public $tableName = '{{%authentications}}';
 
     /**
      * {@inheritdoc}

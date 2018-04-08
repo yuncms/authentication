@@ -15,5 +15,5 @@ namespace yuncms\authentication\frontend;
  */
 class Module extends \yuncms\authentication\Module
 {
-
+    public $defaultRoute = 'authentication';
 }
