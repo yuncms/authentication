@@ -5,7 +5,7 @@
  * @license http://www.tintsoft.com/license/
  */
 
-namespace yuncms\authentication\models;
+namespace yuncms\authentication\backend\models;
 
 use Yii;
 use yuncms\base\Model;
@@ -27,14 +27,9 @@ class Settings extends Model
     public $ociAppCode;
 
     /**
-     * @var integer 身份证图片访问URL
+     * @var integer 身份证图片存储卷
      */
-    public $idCardUrl;
-
-    /**
-     * @var integer 身份证图片存储路径
-     */
-    public $idCardPath;
+    public $volume;
 
     /**
      * 定义字段类型
@@ -45,8 +40,7 @@ class Settings extends Model
         return [
             'enableMachineReview' => 'boolean',
             'ociAppCode' => 'string',
-            'idCardUrl' => 'string',
-            'idCardPath' => 'string',
+            'volume' => 'string',
         ];
     }
 
@@ -55,7 +49,7 @@ class Settings extends Model
         return [
             [['enableMachineReview',], 'boolean'],
             [['enableMachineReview'], 'default', 'value' => true],
-            [['idCardUrl', 'idCardPath', 'ociAppCode'], 'string'],
+            [['volume',  'ociAppCode'], 'string'],
         ];
     }
 
@@ -67,8 +61,7 @@ class Settings extends Model
         return [
             'enableMachineReview' => Yii::t('yuncms/authentication', 'Enable Machine Review'),
             'ociAppCode' => Yii::t('yuncms/authentication', 'Machine Review Code'),
-            'idCardUrl' => Yii::t('yuncms/authentication', 'idCard Url'),
-            'idCardPath' => Yii::t('yuncms/authentication', 'idCard Save Path'),
+            'volume' => Yii::t('yuncms/authentication', 'Storage Volume'),
         ];
     }
 

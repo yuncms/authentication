@@ -7,11 +7,12 @@
 
 namespace yuncms\authentication\models;
 
+use League\Flysystem\AdapterInterface;
 use Yii;
 use yuncms\db\ActiveRecord;
 use yuncms\helpers\ArrayHelper;
+use yuncms\helpers\FileHelper;
 use yuncms\user\models\User;
-use yuncms\authentication\AuthenticationTrait;
 
 /**
  * This is the model class for table "authentications".
@@ -32,8 +33,6 @@ use yuncms\authentication\AuthenticationTrait;
  */
 class Authentication extends ActiveRecord
 {
-    use AuthenticationTrait;
-
     //场景定义
     const SCENARIO_CREATE = 'create';//创建
     const SCENARIO_UPDATE = 'update';//更新
@@ -227,6 +226,83 @@ class Authentication extends ActiveRecord
     }
 
     /**
+     * 计算用户头像子路径
+     *
+     * @param string $fileName 图片名称
+     * @return string
+     */
+    public function getSubPath($fileName)
+    {
+        $id = sprintf("%09d", $this->user_id);
+        $dir1 = substr($id, 0, 3);
+        $dir2 = substr($id, 3, 2);
+        $dir3 = substr($id, 5, 2);
+        return $dir1 . '/' . $dir2 . '/' . $dir3 . '/' . substr($this->user_id, -2) . $fileName;
+    }
+
+    /**
+     * 获取头像存储卷
+     * @return object|\yuncms\filesystem\Adapter
+     * @throws \yii\base\InvalidConfigException
+     */
+    public static function getVolume()
+    {
+        return Yii::$app->getFilesystem()->get(Yii::$app->settings->get('volume', 'authentication', 'authentication'));
+    }
+
+    /**
+     * 保存正面图片
+     * @param string $originalImage
+     * @throws \yii\base\ErrorException
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function savePassportCoverImage($originalImage)
+    {
+        $idCardPath = $this->getSubPath('_passport_cover_image.jpg');
+        if (self::getVolume()->has($idCardPath)) {
+            self::getVolume()->delete($idCardPath);
+        }
+        self::getVolume()->write($idCardPath, FileHelper::readAndDelete($originalImage), [
+            'visibility' => AdapterInterface::VISIBILITY_PRIVATE
+        ]);
+        $this->passport_cover = self::getVolume()->getUrl($idCardPath);
+    }
+
+    /**
+     * @param string $originalImage
+     * @throws \yii\base\ErrorException
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function savePassportPersonPageImage($originalImage)
+    {
+        $idCardPath = $this->getSubPath('_passport_person_page_image.jpg');
+        if (self::getVolume()->has($idCardPath)) {
+            self::getVolume()->delete($idCardPath);
+        }
+        self::getVolume()->write($idCardPath, FileHelper::readAndDelete($originalImage), [
+            'visibility' => AdapterInterface::VISIBILITY_PRIVATE
+        ]);
+        $this->passport_person_page = self::getVolume()->getUrl($idCardPath);
+    }
+
+    /**
+     * @param string $originalImage
+     * @throws \yii\base\ErrorException
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function savePassportSelfHoldingImage($originalImage)
+    {
+        $idCardPath = $this->getSubPath('_passport_self_holding_image.jpg');
+        if (self::getVolume()->has($idCardPath)) {
+            self::getVolume()->delete($idCardPath);
+        }
+        self::getVolume()->write($idCardPath, FileHelper::readAndDelete($originalImage), [
+            'visibility' => AdapterInterface::VISIBILITY_PRIVATE
+        ]);
+        $this->passport_self_holding = self::getVolume()->getUrl($idCardPath);
+    }
+
+    /**
      * 删除前先删除附件
      * @return bool
      * @throws \yii\base\Exception
@@ -234,16 +310,9 @@ class Authentication extends ActiveRecord
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-            $idCardPath = $this->getIdCardPath($this->user_id);
-            if (file_exists($idCardPath . '_passport_cover_image.jpg')) {
-                @unlink($idCardPath . '_passport_cover_image.jpg');
-            }
-            if (file_exists($idCardPath . '_passport_person_page_image.jpg')) {
-                @unlink($idCardPath . '_passport_person_page_image.jpg');
-            }
-            if (file_exists($idCardPath . '_passport_self_holding_image.jpg')) {
-                @unlink($idCardPath . '_passport_self_holding_image.jpg');
-            }
+            static::getVolume()->delete($this->getSubPath('_passport_cover_image.jpg'));
+            static::getVolume()->delete($this->getSubPath('_passport_person_page_image.jpg'));
+            static::getVolume()->delete($this->getSubPath('_passport_self_holding_image.jpg'));
             return true;
         } else {
             return false;

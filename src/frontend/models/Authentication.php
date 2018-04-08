@@ -7,8 +7,10 @@
 
 namespace yuncms\authentication\frontend\models;
 
+use League\Flysystem\AdapterInterface;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yuncms\helpers\FileHelper;
 use yuncms\web\UploadedFile;
 
 /**
@@ -18,17 +20,17 @@ use yuncms\web\UploadedFile;
 class Authentication extends \yuncms\authentication\models\Authentication
 {
     /**
-     * @var \yii\web\UploadedFile 身份证上传字段
+     * @var UploadedFile 身份证上传字段
      */
     public $id_file;
 
     /**
-     * @var \yii\web\UploadedFile 身份证上传字段
+     * @var UploadedFile 身份证上传字段
      */
     public $id_file1;
 
     /**
-     * @var \yii\web\UploadedFile 身份证上传字段
+     * @var UploadedFile 身份证上传字段
      */
     public $id_file2;
 
@@ -119,20 +121,43 @@ class Authentication extends \yuncms\authentication\models\Authentication
     /**
      * @param bool $insert
      * @return bool
+     * @throws \yii\base\ErrorException
      * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
      */
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            $idCardPath = $this->getIdCardPath($this->user_id);
-            if ($this->id_file && $this->id_file->saveAs($idCardPath . '_passport_cover_image.jpg')) {
-                $this->passport_cover = $this->getIdCardUrl($this->user_id) . '_passport_cover_image.jpg';
+            $idCardPath = $this->getSubPath($this->user_id);
+
+            if ($this->id_file && ($tempFile = $this->id_file->saveAsTempFile()) != false) {
+                if (self::getVolume()->has($idCardPath . '_passport_cover_image.jpg')) {
+                    self::getVolume()->delete($idCardPath . '_passport_cover_image.jpg');
+                }
+                self::getVolume()->write($idCardPath . '_passport_cover_image.jpg', FileHelper::readAndDelete($tempFile), [
+                    'visibility' => AdapterInterface::VISIBILITY_PRIVATE
+                ]);
+                $this->passport_cover = self::getVolume()->getUrl($idCardPath . '_passport_cover_image.jpg');
             }
-            if ($this->id_file1 && $this->id_file1->saveAs($idCardPath . '_passport_person_page_image.jpg')) {
-                $this->passport_person_page = $this->getIdCardUrl($this->user_id) . '_passport_person_page_image.jpg';
+
+            if ($this->id_file1 && ($tempFile = $this->id_file1->saveAsTempFile()) != false) {
+                if (self::getVolume()->has($idCardPath . '_passport_person_page_image.jpg')) {
+                    self::getVolume()->delete($idCardPath . '_passport_person_page_image.jpg');
+                }
+                self::getVolume()->write($idCardPath . '_passport_person_page_image.jpg', FileHelper::readAndDelete($tempFile), [
+                    'visibility' => AdapterInterface::VISIBILITY_PRIVATE
+                ]);
+                $this->passport_person_page = self::getVolume()->getUrl($idCardPath . '_passport_person_page_image.jpg');
             }
-            if ($this->id_file2 && $this->id_file2->saveAs($idCardPath . '_passport_self_holding_image.jpg')) {
-                $this->passport_self_holding = $this->getIdCardUrl($this->user_id) . '_passport_self_holding_image.jpg';
+
+            if ($this->id_file2 && ($tempFile = $this->id_file2->saveAsTempFile()) != false) {
+                if (self::getVolume()->has($idCardPath . '_passport_self_holding_image.jpg')) {
+                    self::getVolume()->delete($idCardPath . '_passport_self_holding_image.jpg');
+                }
+                self::getVolume()->write($idCardPath . '_passport_self_holding_image.jpg', FileHelper::readAndDelete($tempFile), [
+                    'visibility' => AdapterInterface::VISIBILITY_PRIVATE
+                ]);
+                $this->passport_self_holding = self::getVolume()->getUrl($idCardPath . '_passport_self_holding_image.jpg');
             }
             if (!$insert && $this->scenario == 'update') {
                 $this->status = self::STATUS_PENDING;
