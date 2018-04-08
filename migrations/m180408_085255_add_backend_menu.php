@@ -1,11 +1,16 @@
 <?php
 
-namespace yuncms\authentication\migrations;
+use yuncms\db\Migration;
 
-use yii\db\Migration;
-
-class M171114032940Add_backend_menu extends Migration
+/**
+ * Class m180408_085255_add_backend_menu
+ */
+class m180408_085255_add_backend_menu extends Migration
 {
+    /*
+     * @var string the table name.
+     */
+    public $tableName;
 
     public function safeUp()
     {
@@ -42,7 +47,7 @@ class M171114032940Add_backend_menu extends Migration
 
     public function down()
     {
-        echo "M171114032940Add_backend_menu cannot be reverted.\n";
+        echo "m180408_085255_add_backend_menu cannot be reverted.\n";
 
         return false;
     }

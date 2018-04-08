@@ -1,12 +1,20 @@
 <?php
 
-namespace yuncms\authentication\migrations;
+use yuncms\db\Migration;
 
-use yii\db\Migration;
-
-class M171114032653Create_authentication_table extends Migration
+/**
+ * Handles the creation of table `authentication`.
+ */
+class m180408_085056_create_authentication_table extends Migration
 {
+    /**
+     * @var string The table name.
+     */
+    public $tableName = '{{%authentication}}';
 
+    /**
+     * {@inheritdoc}
+     */
     public function safeUp()
     {
         $tableOptions = null;
@@ -14,7 +22,7 @@ class M171114032653Create_authentication_table extends Migration
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
-        $this->createTable('{{%authentications}}', [
+        $this->createTable($this->tableName, [
             'user_id' => $this->integer()->unsigned()->notNull()->comment('User ID'),
             'real_name' => $this->string()->comment('Real Name'),
             'id_type' => $this->string(10)->notNull()->comment('ID Type'),
@@ -24,32 +32,20 @@ class M171114032653Create_authentication_table extends Migration
             'passport_self_holding' => $this->string()->comment('Passport Self Holding'),
             'status' => $this->smallInteger(1)->unsigned()->defaultValue(0)->comment('Status'),
             'failed_reason' => $this->string()->comment('Failed Reason'),
-            'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),
-            'updated_at' => $this->integer()->unsigned()->notNull()->comment('Updated At'),
+            'created_at' => $this->unixTimestamp()->comment('Created At'),
+            'updated_at' => $this->unixTimestamp()->comment('Updated At'),
         ], $tableOptions);
 
-        $this->addPrimaryKey('{{%authentications}}', '{{%authentications}}', 'user_id');
-        $this->addForeignKey('{{%authentications_fk_1}}', '{{%authentications}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
+        $this->addPrimaryKey('authentications', $this->tableName, 'user_id');
+        $this->addForeignKey('authentications_fk_1', $this->tableName, 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
+
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function safeDown()
     {
-        $this->dropTable('{{%authentications}}');
+        $this->dropTable($this->tableName);
     }
-
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "M171114032653Create_authentication_table cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }
