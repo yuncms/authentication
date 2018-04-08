@@ -251,55 +251,38 @@ class Authentication extends ActiveRecord
     }
 
     /**
-     * 保存正面图片
+     * 保存图片
      * @param string $originalImage
+     * @param string $targetImage
+     * @return string 存储路径
      * @throws \yii\base\ErrorException
      * @throws \yii\base\InvalidConfigException
      */
-    public function savePassportCoverImage($originalImage)
+    public function saveImage($originalImage, $targetImage)
     {
-        $idCardPath = $this->getSubPath('_passport_cover_image.jpg');
+        $idCardPath = $this->getSubPath($targetImage);
         if (self::getVolume()->has($idCardPath)) {
             self::getVolume()->delete($idCardPath);
         }
         self::getVolume()->write($idCardPath, FileHelper::readAndDelete($originalImage), [
             'visibility' => AdapterInterface::VISIBILITY_PRIVATE
         ]);
-        $this->passport_cover = self::getVolume()->getUrl($idCardPath);
+        return $idCardPath;
     }
 
     /**
-     * @param string $originalImage
-     * @throws \yii\base\ErrorException
+     * 删除图片
+     * @param string $image
+     * @return bool
      * @throws \yii\base\InvalidConfigException
      */
-    public function savePassportPersonPageImage($originalImage)
+    public function deleteImage($image)
     {
-        $idCardPath = $this->getSubPath('_passport_person_page_image.jpg');
+        $idCardPath = $this->getSubPath($image);
         if (self::getVolume()->has($idCardPath)) {
-            self::getVolume()->delete($idCardPath);
+            return self::getVolume()->delete($idCardPath);
         }
-        self::getVolume()->write($idCardPath, FileHelper::readAndDelete($originalImage), [
-            'visibility' => AdapterInterface::VISIBILITY_PRIVATE
-        ]);
-        $this->passport_person_page = self::getVolume()->getUrl($idCardPath);
-    }
-
-    /**
-     * @param string $originalImage
-     * @throws \yii\base\ErrorException
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function savePassportSelfHoldingImage($originalImage)
-    {
-        $idCardPath = $this->getSubPath('_passport_self_holding_image.jpg');
-        if (self::getVolume()->has($idCardPath)) {
-            self::getVolume()->delete($idCardPath);
-        }
-        self::getVolume()->write($idCardPath, FileHelper::readAndDelete($originalImage), [
-            'visibility' => AdapterInterface::VISIBILITY_PRIVATE
-        ]);
-        $this->passport_self_holding = self::getVolume()->getUrl($idCardPath);
+        return true;
     }
 
     /**
@@ -310,9 +293,9 @@ class Authentication extends ActiveRecord
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-            static::getVolume()->delete($this->getSubPath('_passport_cover_image.jpg'));
-            static::getVolume()->delete($this->getSubPath('_passport_person_page_image.jpg'));
-            static::getVolume()->delete($this->getSubPath('_passport_self_holding_image.jpg'));
+            $this->deleteImage('_passport_cover_image.jpg');
+            $this->deleteImage('_passport_person_page_image.jpg');
+            $this->deleteImage('_passport_self_holding_image.jpg');
             return true;
         } else {
             return false;

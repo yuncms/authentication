@@ -131,33 +131,21 @@ class Authentication extends \yuncms\authentication\models\Authentication
             $idCardPath = $this->getSubPath($this->user_id);
 
             if ($this->id_file && ($tempFile = $this->id_file->saveAsTempFile()) != false) {
-                if (self::getVolume()->has($idCardPath . '_passport_cover_image.jpg')) {
-                    self::getVolume()->delete($idCardPath . '_passport_cover_image.jpg');
-                }
-                self::getVolume()->write($idCardPath . '_passport_cover_image.jpg', FileHelper::readAndDelete($tempFile), [
-                    'visibility' => AdapterInterface::VISIBILITY_PRIVATE
-                ]);
-                $this->passport_cover = self::getVolume()->getUrl($idCardPath . '_passport_cover_image.jpg');
+                $idCardPath = $this->saveImage($tempFile,'_passport_cover_image.jpg');
+
+                $this->passport_cover = self::getVolume()->getUrl($idCardPath);
             }
 
             if ($this->id_file1 && ($tempFile = $this->id_file1->saveAsTempFile()) != false) {
-                if (self::getVolume()->has($idCardPath . '_passport_person_page_image.jpg')) {
-                    self::getVolume()->delete($idCardPath . '_passport_person_page_image.jpg');
-                }
-                self::getVolume()->write($idCardPath . '_passport_person_page_image.jpg', FileHelper::readAndDelete($tempFile), [
-                    'visibility' => AdapterInterface::VISIBILITY_PRIVATE
-                ]);
-                $this->passport_person_page = self::getVolume()->getUrl($idCardPath . '_passport_person_page_image.jpg');
+                $idCardPath = $this->saveImage($tempFile,'_passport_person_page_image.jpg');
+
+                $this->passport_person_page = self::getVolume()->getUrl($idCardPath );
             }
 
             if ($this->id_file2 && ($tempFile = $this->id_file2->saveAsTempFile()) != false) {
-                if (self::getVolume()->has($idCardPath . '_passport_self_holding_image.jpg')) {
-                    self::getVolume()->delete($idCardPath . '_passport_self_holding_image.jpg');
-                }
-                self::getVolume()->write($idCardPath . '_passport_self_holding_image.jpg', FileHelper::readAndDelete($tempFile), [
-                    'visibility' => AdapterInterface::VISIBILITY_PRIVATE
-                ]);
-                $this->passport_self_holding = self::getVolume()->getUrl($idCardPath . '_passport_self_holding_image.jpg');
+                $idCardPath = $this->saveImage($tempFile,'_passport_self_holding_image.jpg');
+
+                $this->passport_self_holding = self::getVolume()->getUrl($idCardPath );
             }
             if (!$insert && $this->scenario == 'update') {
                 $this->status = self::STATUS_PENDING;
