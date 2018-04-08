@@ -1,7 +1,7 @@
 <?php
-use yii\helpers\Html;
+use yuncms\helpers\Html;
 use yuncms\authentication\models\Authentication;
-use xutl\inspinia\ActiveForm;
+use yuncms\admin\widgets\ActiveForm;
 
 /* @var \yii\web\View $this */
 /* @var yuncms\authentication\models\Authentication $model */
@@ -13,11 +13,11 @@ use xutl\inspinia\ActiveForm;
 <?= $form->field($model, 'real_name')->textInput(['maxlength' => true]) ?>
 <div class="hr-line-dashed"></div>
 <?= $form->field($model, 'id_type')->dropDownList([
-    Authentication::TYPE_ID => Yii::t('authentication', 'ID Card'),
-    Authentication::TYPE_PASSPORT => Yii::t('authentication', 'Passport ID'),
-    Authentication::TYPE_ARMYID => Yii::t('authentication', 'Army ID'),
-    Authentication::TYPE_TAIWANID => Yii::t('authentication', 'Taiwan ID'),
-    Authentication::TYPE_HKMCID => Yii::t('authentication', 'HKMC ID'),
+    Authentication::TYPE_ID => Yii::t('yuncms/authentication', 'ID Card'),
+    Authentication::TYPE_PASSPORT => Yii::t('yuncms/authentication', 'Passport ID'),
+    Authentication::TYPE_ARMYID => Yii::t('yuncms/authentication', 'Army ID'),
+    Authentication::TYPE_TAIWANID => Yii::t('yuncms/authentication', 'Taiwan ID'),
+    Authentication::TYPE_HKMCID => Yii::t('yuncms/authentication', 'HKMC ID'),
 ]); ?>
 <div class="hr-line-dashed"></div>
 <?= $form->field($model, 'id_card')->textInput(['maxlength' => true]) ?>
@@ -25,27 +25,27 @@ use xutl\inspinia\ActiveForm;
 <div class="hr-line-dashed"></div>
 
 <?= $form->field($model, 'status')->inline(true)->radioList([
-    0 => Yii::t('authentication', 'Pending review'),
-    1 => Yii::t('authentication', 'Refuse'),
-    2 => Yii::t('authentication', 'Passed'),
+    0 => Yii::t('yuncms/authentication', 'Pending review'),
+    1 => Yii::t('yuncms/authentication', 'Refuse'),
+    2 => Yii::t('yuncms/authentication', 'Passed'),
 ]) ?>
 <div class="hr-line-dashed"></div>
 <div class="form-group field-authentication-passport_cover">
-    <label class="control-label col-sm-3"><?= Yii::t('authentication', 'Passport cover') ?></label>
+    <label class="control-label col-sm-3"><?= Yii::t('yuncms/authentication', 'Passport cover') ?></label>
     <div class="col-sm-6">
         <?= Html::img($model->passport_cover); ?>
     </div>
 </div>
 <div class="hr-line-dashed"></div>
 <div class="form-group field-authentication-passport_person_page">
-    <label class="control-label col-sm-3"><?= Yii::t('authentication', 'Passport person page') ?></label>
+    <label class="control-label col-sm-3"><?= Yii::t('yuncms/authentication', 'Passport person page') ?></label>
     <div class="col-sm-6">
         <?= Html::img($model->passport_person_page); ?>
     </div>
 </div>
 <div class="hr-line-dashed"></div>
 <div class="form-group field-authentication-passport_self_holding">
-    <label class="control-label col-sm-3"><?= Yii::t('authentication', 'Passport self holding') ?></label>
+    <label class="control-label col-sm-3"><?= Yii::t('yuncms/authentication', 'Passport self holding') ?></label>
     <div class="col-sm-6">
         <?= Html::img($model->passport_self_holding); ?>
     </div>
@@ -56,7 +56,7 @@ use xutl\inspinia\ActiveForm;
 
 <div class="form-group">
     <div class="col-sm-4 col-sm-offset-2">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('authentication', 'Create') : Yii::t('authentication', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('yuncms', 'Create') : Yii::t('yuncms', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 
     </div>
 </div>

@@ -1,16 +1,16 @@
 <?php
 
-use yii\helpers\Html;
-use xutl\inspinia\Box;
-use xutl\inspinia\Toolbar;
-use xutl\inspinia\Alert;
-use xutl\inspinia\ActiveForm;
+use yuncms\helpers\Html;
+use yuncms\admin\widgets\Box;
+use yuncms\admin\widgets\Toolbar;
+use yuncms\admin\widgets\Alert;
+use yuncms\admin\widgets\ActiveForm;
 
 /* @var yii\web\View $this  */
 /* @var yuncms\authentication\models\Settings $model  */
 
-$this->title = Yii::t('authentication', 'Settings');
-$this->params['breadcrumbs'][] = Yii::t('authentication', 'Manage Authentication');
+$this->title = Yii::t('yuncms/authentication', 'Settings');
+$this->params['breadcrumbs'][] = Yii::t('yuncms/authentication', 'Manage Authentication');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -25,11 +25,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Toolbar::widget([
                         'items' => [
                             [
-                                'label' => Yii::t('authentication', 'Manage Authentication'),
+                                'label' => Yii::t('yuncms/authentication', 'Manage Authentication'),
                                 'url' => ['index'],
                             ],
                             [
-                                'label' => Yii::t('authentication', 'Settings'),
+                                'label' => Yii::t('yuncms/authentication', 'Settings'),
                                 'url' => ['settings'],
                             ],
                         ]
@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'idCardUrl') ?>
             <?= $form->field($model, 'idCardPath') ?>
 
-            <?= Html::submitButton(Yii::t('authentication', 'Settings'), ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton(Yii::t('yuncms', 'Settings'), ['class' => 'btn btn-primary']) ?>
 
             <?php ActiveForm::end(); ?>
             <?php Box::end(); ?>

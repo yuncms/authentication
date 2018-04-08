@@ -1,17 +1,17 @@
 <?php
 
-use yii\helpers\Html;
-use xutl\inspinia\Box;
-use xutl\inspinia\Toolbar;
-use xutl\inspinia\Alert;
+use yuncms\helpers\Html;
+use yuncms\admin\widgets\Box;
+use yuncms\admin\widgets\Toolbar;
+use yuncms\admin\widgets\Alert;
 
 /* @var $this yii\web\View */
 /* @var $model yuncms\authentication\models\Authentication */
 
-$this->title = Yii::t('authentication', 'Update Authentication') . ': ' . $model->user_id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('authentication', 'Manage Authentication'), 'url' => ['index']];
+$this->title = Yii::t('yuncms/authentication', 'Update Authentication') . ': ' . $model->user_id;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('yuncms/authentication', 'Manage Authentication'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->user_id, 'url' => ['view', 'id' => $model->user_id]];
-$this->params['breadcrumbs'][] = Yii::t('authentication', 'Update');
+$this->params['breadcrumbs'][] = Yii::t('yuncms', 'Update');
 ?>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = Yii::t('authentication', 'Update');
                 <div class="col-sm-4 m-b-xs">
                     <?= Toolbar::widget(['items' => [
                         [
-                            'label' => Yii::t('authentication', 'Manage Authentication'),
+                            'label' => Yii::t('yuncms/authentication', 'Manage Authentication'),
                             'url' => ['index'],
                         ],
                     ]]); ?>

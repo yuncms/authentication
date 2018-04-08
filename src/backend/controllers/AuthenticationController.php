@@ -21,7 +21,7 @@ class AuthenticationController extends Controller
         return [
             //....
             'settings' => [
-                'class' => 'yuncms\core\actions\SettingsAction',
+                'class' => 'yuncms\actions\SettingsAction',
                 'modelClass' => 'yuncms\authentication\models\Settings',
                 //'scenario' => 'user',
                 //'scenario' => 'site', // Change if you want to re-use the model for multiple setting form.
@@ -38,7 +38,7 @@ class AuthenticationController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = Yii::createObject(AuthenticationSearch::className());
+        $searchModel = Yii::createObject(AuthenticationSearch::class);
         $dataProvider = $searchModel->search(Yii::$app->request->get());
 
         return $this->render('index', [
@@ -76,7 +76,7 @@ class AuthenticationController extends Controller
             return ActiveForm::validate($model);
         }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->getSession()->setFlash('success', Yii::t('authentication','Update success.'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('yuncms','Update success.'));
             return $this->redirect(['view', 'id' => $model->user_id]);
         } else {
             return $this->render('update', [
@@ -97,7 +97,7 @@ class AuthenticationController extends Controller
         if (($model = Authentication::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException (Yii::t('authentication', 'The requested page does not exist.'));
+            throw new NotFoundHttpException (Yii::t('yuncms', 'The requested page does not exist.'));
         }
     }
 }

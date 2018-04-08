@@ -93,9 +93,9 @@ class AuthenticationSearch extends Model
     {
         $dropDownList = [
             "status" => [
-                Authentication::STATUS_PENDING => Yii::t('authentication', 'Pending review'),
-                Authentication::STATUS_REJECTED => Yii::t('authentication', 'Rejected'),
-                Authentication::STATUS_AUTHENTICATED => Yii::t('authentication', 'Authenticated'),
+                Authentication::STATUS_PENDING => Yii::t('yuncms/authentication', 'Pending review'),
+                Authentication::STATUS_REJECTED => Yii::t('yuncms/authentication', 'Rejected'),
+                Authentication::STATUS_AUTHENTICATED => Yii::t('yuncms/authentication', 'Authenticated'),
             ],
         ];
         //根据具体值显示对应的值

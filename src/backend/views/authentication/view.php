@@ -1,16 +1,16 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\DetailView;
-use xutl\inspinia\Box;
-use xutl\inspinia\Toolbar;
-use xutl\inspinia\Alert;
+use yuncms\helpers\Html;
+use yuncms\widgets\DetailView;
+use yuncms\admin\widgets\Box;
+use yuncms\admin\widgets\Toolbar;
+use yuncms\admin\widgets\Alert;
 
 /* @var $this yii\web\View */
 /* @var $model yuncms\authentication\models\Authentication */
 
 $this->title = $model->user_id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('authentication', 'Manage Authentication'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('yuncms/authentication', 'Manage Authentication'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -24,12 +24,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-sm-4 m-b-xs">
                     <?= Toolbar::widget(['items' => [
                         [
-                            'label' => Yii::t('authentication', 'Manage Authentication'),
+                            'label' => Yii::t('yuncms/authentication', 'Manage Authentication'),
                             'url' => ['index'],
                         ],
 
                         [
-                            'label' => Yii::t('authentication', 'Update Authentication'),
+                            'label' => Yii::t('yuncms/authentication', 'Update Authentication'),
                             'url' => ['update', 'id' => $model->user_id],
                             'options' => ['class' => 'btn btn-primary btn-sm']
                         ],
@@ -50,15 +50,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     'passport_person_page:image',
                     'passport_self_holding:image',
                     [
-                        'header' => Yii::t('authentication', 'Authentication'),
+                        'header' => Yii::t('yuncms/authentication', 'Authentication'),
                         'attribute' => 'status',
                         'value' => function ($model) {
                             if ($model->status == 0) {
-                                return Yii::t('authentication', 'Pending review');
+                                return Yii::t('yuncms/authentication', 'Pending review');
                             } elseif ($model->status == 1) {
-                                return Yii::t('authentication', 'Rejected');
+                                return Yii::t('yuncms/authentication', 'Rejected');
                             } elseif ($model->status == 2) {
-                                return Yii::t('authentication', 'Authenticated');
+                                return Yii::t('yuncms/authentication', 'Authenticated');
                             }
                             return null;
                         },

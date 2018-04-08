@@ -7,6 +7,12 @@
 
 namespace yuncms\authentication\frontend;
 
+/**
+ * Class Module
+ *
+ * @author Tongle Xu <xutongle@gmail.com>
+ * @since 3.0
+ */
 class Module extends \yuncms\authentication\Module
 {
 

@@ -9,7 +9,7 @@ namespace yuncms\authentication\frontend\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\web\UploadedFile;
+use yuncms\web\UploadedFile;
 
 /**
  * Class AuthenticationForm
@@ -76,7 +76,7 @@ class Authentication extends \yuncms\authentication\models\Authentication
                 'file',
                 'extensions' => 'gif,jpg,jpeg,png',
                 'maxSize' => 1024 * 1024 * 2,
-                'tooBig' => Yii::t('authentication', 'File has to be smaller than 2MB'),
+                'tooBig' => Yii::t('yuncms/authentication', 'File has to be smaller than 2MB'),
                 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]
             ],
 
@@ -84,7 +84,7 @@ class Authentication extends \yuncms\authentication\models\Authentication
             'verifyCode' => ['verifyCode', 'captcha', 'captchaAction' => '/authentication/authentication/captcha'],
 
             'registrationPolicyRequired' => ['registrationPolicy', 'required', 'skipOnEmpty' => false, 'requiredValue' => true,
-                'message' => Yii::t('authentication', '{attribute} must be selected.')
+                'message' => Yii::t('yuncms/authentication', '{attribute} must be selected.')
             ],
         ]);
     }
@@ -96,10 +96,10 @@ class Authentication extends \yuncms\authentication\models\Authentication
     {
         $attributeLabels = parent::attributeLabels();
         return array_merge($attributeLabels, [
-            'id_file' => Yii::t('authentication', 'Passport cover'),
-            'id_file1' => Yii::t('authentication', 'Passport person page'),
-            'id_file2' => Yii::t('authentication', 'Passport self holding'),
-            'registrationPolicy' => Yii::t('authentication', 'Agree and accept Service Agreement and Privacy Policy'),
+            'id_file' => Yii::t('yuncms/authentication', 'Passport cover'),
+            'id_file1' => Yii::t('yuncms/authentication', 'Passport person page'),
+            'id_file2' => Yii::t('yuncms/authentication', 'Passport self holding'),
+            'registrationPolicy' => Yii::t('yuncms/authentication', 'Agree and accept Service Agreement and Privacy Policy'),
         ]);
     }
 
@@ -118,6 +118,7 @@ class Authentication extends \yuncms\authentication\models\Authentication
     /**
      * @param bool $insert
      * @return bool
+     * @throws \yii\base\Exception
      */
     public function beforeSave($insert)
     {

@@ -1,17 +1,17 @@
 <?php
-use yii\helpers\Html;
-use yii\grid\GridView;
+use yuncms\helpers\Html;
+use yuncms\grid\GridView;
 use yii\widgets\Pjax;
-use xutl\inspinia\Box;
-use xutl\inspinia\Toolbar;
-use xutl\inspinia\Alert;
+use yuncms\admin\widgets\Box;
+use yuncms\admin\widgets\Toolbar;
+use yuncms\admin\widgets\Alert;
 use yuncms\authentication\backend\models\AuthenticationSearch;
 
 /* @var $this yii\web\View */
 /* @var $searchModel yuncms\authentication\backend\models\AuthenticationSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('authentication', 'Manage Authentication');
+$this->title = Yii::t('yuncms/authentication', 'Manage Authentication');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -26,11 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-sm-4 m-b-xs">
                     <?= Toolbar::widget(['items' => [
                         [
-                            'label' => Yii::t('authentication', 'Manage Authentication'),
+                            'label' => Yii::t('yuncms/authentication', 'Manage Authentication'),
                             'url' => ['index'],
                         ],
                         [
-                            'label' => Yii::t('authentication', 'Settings'),
+                            'label' => Yii::t('yuncms/authentication', 'Settings'),
                             'url' => ['settings'],
                         ],
                     ]]); ?>
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'type',
                     'id_card',
                     [
-                        'header' => Yii::t('authentication', 'Authentication'),
+                        'header' => Yii::t('yuncms/authentication', 'Authentication'),
                         'attribute' => 'status',
                         'value' => function ($model) {
                             return AuthenticationSearch::dropDown("status", $model->status);
@@ -92,8 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]),
                     ],
                     [
-                        'class' => 'yii\grid\ActionColumn',
-                        'header' => Yii::t('authentication', 'Operation'),
+                        'class' => 'yuncms\grid\ActionColumn',
                         'template' => '{view} {update}',
                         //'buttons' => [
                         //    'update' => function ($url, $model, $key) {

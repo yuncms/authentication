@@ -168,18 +168,18 @@ class Authentication extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_id' => Yii::t('authentication', 'User Id'),
-            'real_name' => Yii::t('authentication', 'Full Name'),
-            'id_type' => Yii::t('authentication', 'Id Type'),
-            'type' => Yii::t('authentication', 'Id Type'),
-            'id_card' => Yii::t('authentication', 'Id Card'),
-            'passport_cover' => Yii::t('authentication', 'Passport cover'),
-            'passport_person_page' => Yii::t('authentication', 'Passport person page'),
-            'passport_self_holding' => Yii::t('authentication', 'Passport self holding'),
-            'status' => Yii::t('authentication', 'Status'),
-            'failed_reason' => Yii::t('authentication', 'Failed Reason'),
-            'created_at' => Yii::t('authentication', 'Created At'),
-            'updated_at' => Yii::t('authentication', 'Updated At'),
+            'user_id' => Yii::t('yuncms/authentication', 'User Id'),
+            'real_name' => Yii::t('yuncms/authentication', 'Full Name'),
+            'id_type' => Yii::t('yuncms/authentication', 'Id Type'),
+            'type' => Yii::t('yuncms/authentication', 'Id Type'),
+            'id_card' => Yii::t('yuncms/authentication', 'Id Card'),
+            'passport_cover' => Yii::t('yuncms/authentication', 'Passport cover'),
+            'passport_person_page' => Yii::t('yuncms/authentication', 'Passport person page'),
+            'passport_self_holding' => Yii::t('yuncms/authentication', 'Passport self holding'),
+            'status' => Yii::t('yuncms/authentication', 'Status'),
+            'failed_reason' => Yii::t('yuncms/authentication', 'Failed Reason'),
+            'created_at' => Yii::t('yuncms/authentication', 'Created At'),
+            'updated_at' => Yii::t('yuncms/authentication', 'Updated At'),
         ];
     }
 
@@ -187,19 +187,19 @@ class Authentication extends ActiveRecord
     {
         switch ($this->id_type) {
             case self::TYPE_ID:
-                $genderName = Yii::t('authentication', 'ID Card');
+                $genderName = Yii::t('yuncms/authentication', 'ID Card');
                 break;
             case self::TYPE_PASSPORT:
-                $genderName = Yii::t('authentication', 'Passport ID');
+                $genderName = Yii::t('yuncms/authentication', 'Passport ID');
                 break;
             case self::TYPE_ARMYID:
-                $genderName = Yii::t('authentication', 'Army ID');
+                $genderName = Yii::t('yuncms/authentication', 'Army ID');
                 break;
             case self::TYPE_TAIWANID:
-                $genderName = Yii::t('authentication', 'Taiwan ID');
+                $genderName = Yii::t('yuncms/authentication', 'Taiwan ID');
                 break;
             case self::TYPE_HKMCID:
-                $genderName = Yii::t('authentication', 'HKMC ID');
+                $genderName = Yii::t('yuncms/authentication', 'HKMC ID');
                 break;
             default:
                 throw new \RuntimeException('Not set!');
@@ -212,7 +212,7 @@ class Authentication extends ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
     /**
