@@ -7,10 +7,9 @@
 
 namespace yuncms\authentication\frontend\models;
 
-use League\Flysystem\AdapterInterface;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yuncms\helpers\FileHelper;
+use yuncms\authentication\Module;
 use yuncms\web\UploadedFile;
 
 /**
@@ -128,24 +127,19 @@ class Authentication extends \yuncms\authentication\models\Authentication
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            $idCardPath = $this->getSubPath($this->user_id);
-
             if ($this->id_file && ($tempFile = $this->id_file->saveAsTempFile()) != false) {
-                $idCardPath = $this->saveImage($tempFile,'_passport_cover_image.jpg');
-
-                $this->passport_cover = self::getVolume()->getUrl($idCardPath);
+                $idCardPath = Module::saveImage($this->user_id, $tempFile, '_passport_cover_image.jpg');
+                $this->passport_cover = Module::getVolume()->getUrl($idCardPath);
             }
 
             if ($this->id_file1 && ($tempFile = $this->id_file1->saveAsTempFile()) != false) {
-                $idCardPath = $this->saveImage($tempFile,'_passport_person_page_image.jpg');
-
-                $this->passport_person_page = self::getVolume()->getUrl($idCardPath );
+                $idCardPath = Module::saveImage($this->user_id, $tempFile, '_passport_person_page_image.jpg');
+                $this->passport_person_page = Module::getVolume()->getUrl($idCardPath);
             }
 
             if ($this->id_file2 && ($tempFile = $this->id_file2->saveAsTempFile()) != false) {
-                $idCardPath = $this->saveImage($tempFile,'_passport_self_holding_image.jpg');
-
-                $this->passport_self_holding = self::getVolume()->getUrl($idCardPath );
+                $idCardPath = Module::saveImage($this->user_id, $tempFile, '_passport_self_holding_image.jpg');
+                $this->passport_self_holding = Module::getVolume()->getUrl($idCardPath);
             }
             if (!$insert && $this->scenario == 'update') {
                 $this->status = self::STATUS_PENDING;

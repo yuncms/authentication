@@ -7,11 +7,10 @@
 
 namespace yuncms\authentication\models;
 
-use League\Flysystem\AdapterInterface;
 use Yii;
+use yuncms\authentication\Module;
 use yuncms\db\ActiveRecord;
 use yuncms\helpers\ArrayHelper;
-use yuncms\helpers\FileHelper;
 use yuncms\user\models\User;
 
 /**
@@ -226,66 +225,6 @@ class Authentication extends ActiveRecord
     }
 
     /**
-     * 计算用户头像子路径
-     *
-     * @param string $fileName 图片名称
-     * @return string
-     */
-    public function getSubPath($fileName)
-    {
-        $id = sprintf("%09d", $this->user_id);
-        $dir1 = substr($id, 0, 3);
-        $dir2 = substr($id, 3, 2);
-        $dir3 = substr($id, 5, 2);
-        return $dir1 . '/' . $dir2 . '/' . $dir3 . '/' . substr($this->user_id, -2) . $fileName;
-    }
-
-    /**
-     * 获取头像存储卷
-     * @return object|\yuncms\filesystem\Adapter
-     * @throws \yii\base\InvalidConfigException
-     */
-    public static function getVolume()
-    {
-        return Yii::$app->getFilesystem()->get(Yii::$app->settings->get('volume', 'authentication', 'authentication'));
-    }
-
-    /**
-     * 保存图片
-     * @param string $originalImage
-     * @param string $targetImage
-     * @return string 存储路径
-     * @throws \yii\base\ErrorException
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function saveImage($originalImage, $targetImage)
-    {
-        $idCardPath = $this->getSubPath($targetImage);
-        if (self::getVolume()->has($idCardPath)) {
-            self::getVolume()->delete($idCardPath);
-        }
-        self::getVolume()->write($idCardPath, FileHelper::readAndDelete($originalImage), [
-            'visibility' => AdapterInterface::VISIBILITY_PRIVATE
-        ]);
-        return $idCardPath;
-    }
-
-    /**
-     * 删除图片
-     * @param string $image
-     * @return bool
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function deleteImage($image)
-    {
-        $idCardPath = $this->getSubPath($image);
-        if (self::getVolume()->has($idCardPath)) {
-            return self::getVolume()->delete($idCardPath);
-        }
-        return true;
-    }
-
-    /**
      * 删除前先删除附件
      * @return bool
      * @throws \yii\base\Exception
@@ -293,9 +232,9 @@ class Authentication extends ActiveRecord
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-            $this->deleteImage('_passport_cover_image.jpg');
-            $this->deleteImage('_passport_person_page_image.jpg');
-            $this->deleteImage('_passport_self_holding_image.jpg');
+            Module::deleteImage($this->user_id, '_passport_cover_image.jpg');
+            Module::deleteImage($this->user_id, '_passport_person_page_image.jpg');
+            Module::deleteImage($this->user_id, '_passport_self_holding_image.jpg');
             return true;
         } else {
             return false;
