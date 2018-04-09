@@ -11,7 +11,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-2">
+        <?= $this->render('@yuncms/user/views/_profile_menu') ?>
+    </div>
+    <div class="col-md-10">
         <h2 class="h3 profile-title"><?= Yii::t('yuncms/authentication', 'Authentication') ?></h2>
         <?php if (!$model->isNewRecord): ?>
             <?php if ($model->status == 0): ?>
