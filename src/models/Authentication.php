@@ -214,6 +214,19 @@ class Authentication extends ActiveRecord
     }
 
     /**
+     * 获取认证实例
+     * @param int $userId
+     * @return null|ActiveRecord|static
+     */
+    public static function findByUserId($userId)
+    {
+        if (($model = self::findOne(['user_id' => $userId])) === null) {
+            $model = self::create(['scenario' => self::SCENARIO_CREATE, 'registrationPolicy' => true]);
+        }
+        return $model;
+    }
+
+    /**
      * 是否实名认证
      * @param int $user_id
      * @return bool

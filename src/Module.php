@@ -7,10 +7,10 @@
 
 namespace yuncms\authentication;
 
-use League\Flysystem\AdapterInterface;
 use Yii;
 use yii\base\InvalidConfigException;
 use yuncms\helpers\FileHelper;
+use League\Flysystem\AdapterInterface;
 
 /**
  * Class Module
