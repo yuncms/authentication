@@ -49,7 +49,8 @@ class Settings extends Model
         return [
             [['enableMachineReview',], 'boolean'],
             [['enableMachineReview'], 'default', 'value' => true],
-            [['volume',  'ociAppCode'], 'string'],
+            [['volume', 'ociAppCode'], 'string'],
+            ['volume', 'default', 'value' => 'authentication'],
         ];
     }
 

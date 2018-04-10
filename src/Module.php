@@ -22,13 +22,13 @@ class Module extends \yuncms\base\Module
      * 初始化存储
      * @throws InvalidConfigException
      */
-    public function init()
-    {
-        parent::init();
-        if (!Yii::$app->getFilesystem()->has(Yii::$app->settings->get('volume', 'authentication', 'authentication'))) {
-            throw new InvalidConfigException("Unknown storage configuration.");
-        }
-    }
+//    public function init()
+//    {
+//        parent::init();
+//        if (!Yii::$app->getFilesystem()->has(Yii::$app->settings->get('volume', 'authentication', 'authentication'))) {
+//            throw new InvalidConfigException("Unknown storage configuration.");
+//        }
+//    }
 
     /**
      * 获取头像存储卷
