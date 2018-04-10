@@ -10,6 +10,7 @@ namespace yuncms\authentication\rest\models;
 use Yii;
 use yuncms\authentication\Module;
 use yuncms\helpers\ArrayHelper;
+use yuncms\rest\models\User;
 use yuncms\web\UploadedFile;
 
 /**
@@ -110,6 +111,14 @@ class Authentication extends \yuncms\authentication\models\Authentication
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    /**
      * 加载上传文件
      * @return bool
      */
@@ -124,7 +133,9 @@ class Authentication extends \yuncms\authentication\models\Authentication
     /**
      * @param bool $insert
      * @return bool
+     * @throws \yii\base\ErrorException
      * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
      */
     public function beforeSave($insert)
     {
