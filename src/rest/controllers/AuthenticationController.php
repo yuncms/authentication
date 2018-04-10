@@ -14,7 +14,7 @@ use yuncms\authentication\rest\models\Authentication;
 use yuncms\rest\Controller;
 
 /**
- * Class AuthenticationController
+ * 实名认证接口
  *
  * @author Tongle Xu <xutongle@gmail.com>
  * @since 3.0
@@ -29,13 +29,45 @@ class AuthenticationController extends Controller
     protected function verbs()
     {
         return array_merge(parent::verbs(), [
+            'get' => ['GET'],
+            'put' => ['POST'],
             'authentication' => ['GET', 'POST'],
         ]);
     }
 
     /**
+     * 获取实名认证
+     * @return null|\yuncms\db\ActiveRecord|static
+     */
+    public function actionGet()
+    {
+        return Authentication::findByUserId(Yii::$app->user->getId());
+    }
+
+    /**
+     * 提交实名认证
+     * @return null|\yuncms\db\ActiveRecord|static
+     * @throws ServerErrorHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function actionPut()
+    {
+        $model = Authentication::findByUserId(Yii::$app->user->getId());
+        $model->scenario = Authentication::SCENARIO_UPDATE;
+        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        if (($model->save()) != false) {
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(201);
+            return $model;
+        } elseif (!$model->hasErrors()) {
+            throw new ServerErrorHttpException('Failed to create the object for unknown reason.');
+        }
+        return $model;
+    }
+
+    /**
      * 实名认证
-     * @return null|Authentication
+     * @return AuthenticationController|\yuncms\db\ActiveRecord
      * @throws MethodNotAllowedHttpException
      * @throws ServerErrorHttpException
      * @throws \yii\base\InvalidConfigException
@@ -43,19 +75,9 @@ class AuthenticationController extends Controller
     public function actionAuthentication()
     {
         if (Yii::$app->request->isPost) {
-            $model = Authentication::findByUserId(Yii::$app->user->getId());
-            $model->scenario = Authentication::SCENARIO_UPDATE;
-            $model->load(Yii::$app->getRequest()->getBodyParams(), '');
-            if (($model->save()) != false) {
-                $response = Yii::$app->getResponse();
-                $response->setStatusCode(201);
-                return $model;
-            } elseif (!$model->hasErrors()) {
-                throw new ServerErrorHttpException('Failed to create the object for unknown reason.');
-            }
-            return $model;
+            return $this->actionPut();
         } else if (Yii::$app->request->isGet) {
-            return Authentication::findByUserId(Yii::$app->user->getId());
+            return $this->actionGet();
         }
         throw new MethodNotAllowedHttpException();
     }
