@@ -23,7 +23,7 @@ class m180408_085056_create_authentication_table extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
         $this->createTable($this->tableName, [
-            'user_id' => $this->integer()->unsigned()->notNull()->comment('User ID'),
+            'user_id' => $this->unsignedInteger()->notNull()->comment('User ID'),
             'real_name' => $this->string()->comment('Real Name'),
             'id_type' => $this->string(10)->notNull()->comment('ID Type'),
             'id_card' => $this->string()->notNull()->comment('ID Card'),
